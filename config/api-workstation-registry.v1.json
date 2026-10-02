@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0",
+  "workstation_id": "codestra-api-workstation-v1",
+  "generated_on": "2026-10-02",
+  "authority": {
+    "github": "code_contracts_ci_release",
+    "linear": "execution_status",
+    "notion": "architecture_decisions_runbooks",
+    "lucid": "visual_architecture",
+    "middleware_v3": "runtime_command_effect_authority",
+    "n8n": "reconciliation_worker_only"
+  },
+  "canonical_edge": [
+    "Caddy",
+    "Kong",
+    "Middleware V3 :8095"
+  ],
+  "surfaces": {
+    "linear": {
+      "project_id": "b813cbaf-5931-4252-9ed5-25c6c50ccc75",
+      "project_url": "https://linear.app/passion-fruit/project/codestra-api-workstation-cross-repo-readiness-ac4681283417",
+      "document_id": "b3bbecf6-b32d-473c-9f61-14cd49f42b4b",
+      "document_url": "https://linear.app/passion-fruit/document/api-workstation-repo-readiness-matrix-and-execution-plan-f63c2d1d8efd"
+    },
+    "notion": {
+      "page_id": "3ed7518c-3e06-81e7-9abd-ee00b136209d",
+      "page_url": "https://app.notion.com/p/3ed7518c3e0681e79abdee00b136209d?pvs=204",
+      "parent_page_id": "3e17518c-3e06-818a-98ae-ce2d0159d49a"
+    },
+    "lucid": {
+      "document_id": "da85d1b4-a6db-4dff-9286-d66bdcd560db",
+      "view_url": "https://lucid.app/lucidchart/da85d1b4-a6db-4dff-9286-d66bdcd560db/view",
+      "pages": [
+        "Runtime API Architecture",
+        "Workstation Sync and Authority"
+      ]
+    }
+  },
+  "api_standard": {
+    "openapi": "3.1",
+    "health_path": "/healthz",
+    "readiness_path": "/readyz",
+    "capabilities_path": "/v1/capabilities",
+    "auth": "Keycloak OAuth2/JWT or approved private service profile",
+    "effect_policy": "Middleware V3 governed and default-deny",
+    "promotion": [
+      "development",
+      "testing",
+      "staging",
+      "production"
+    ]
+  },
+  "services": [
+    {
+      "repo": "appolon1908/Middleware-",
+      "service_id": "middleware-v3",
+      "class": "public-control-api",
+      "readiness": "strong-baseline",
+      "notes": "canonical :8095 integration API; generated OpenAPI/Postman/health/readiness evidence"
+    },
+    {
+      "repo": "appolon1908/Caddy",
+      "service_id": "caddy-edge",
+      "class": "public-edge",
+      "readiness": "strong-baseline",
+      "notes": "TLS/public route authority; no business logic"
+    },
+    {
+      "repo": "appolon1908/Kong",
+      "service_id": "kong-gateway",
+      "class": "gateway",
+      "readiness": "strong-baseline",
+      "notes": "gateway-control OpenAPI and route/trust contracts"
+    },
+    {
+      "repo": "appolon1908/Keycloak",
+      "service_id": "keycloak",
+      "class": "identity",
+      "readiness": "partial",
+      "notes": "OIDC/service identities; admin control plane private"
+    },
+    {
+      "repo": "appolon1908/N8N",
+      "service_id": "n8n-automation",
+      "class": "internal-automation",
+      "readiness": "partial",
+      "notes": "automation-control OpenAPI exists; standard runtime health/readiness convergence required"
+    },
+    {
+      "repo": "appolon1908/Odoo",
+      "service_id": "odoo",
+      "class": "business-api",
+      "readiness": "partial",
+      "notes": "contact-center OpenAPI exists; standard readiness/capability convergence required"
+    },
+    {
+      "repo": "appolon1908/codestra-provisioning-service",
+      "service_id": "provisioning-service",
+      "class": "internal-service",
+      "readiness": "partial",
+      "notes": "FastAPI /health + /ready; add canonical aliases/artifact"
+    },
+    {
+      "repo": "appolon1908/websocket",
+      "service_id": "websocket-gateway",
+      "class": "realtime-api",
+      "readiness": "partial",
+      "notes": "/healthz + JWT/event gateway; needs /readyz and OpenAPI/AsyncAPI"
+    },
+    {
+      "repo": "appolon1908/WhatsApp",
+      "service_id": "whatsapp-app",
+      "class": "application-api",
+      "readiness": "partial",
+      "notes": "OpenAPI /healthz /readyz and Middleware effect boundary present"
+    },
+    {
+      "repo": "appolon1908/social.codestra.co",
+      "service_id": "social-publisher",
+      "class": "application-api",
+      "readiness": "partial",
+      "notes": "OpenAPI/AsyncAPI present; media-artifact/Middleware convergence required"
+    },
+    {
+      "repo": "appolon1908/Kdenlive",
+      "service_id": "kdenlive-media",
+      "class": "media-api",
+      "readiness": "planned",
+      "notes": "standalone API architecture on development; implementation required"
+    },
+    {
+      "repo": "appolon1908/Natron",
+      "service_id": "natron-vfx",
+      "class": "media-api",
+      "readiness": "planned",
+      "notes": "standalone API architecture on development; implementation required"
+    }
+  ],
+  "private_infrastructure": [
+    "appolon1908/Codestra-OpenBao",
+    "appolon1908/Codestra-PostgreSQL",
+    "appolon1908/Codestra-Prometheus",
+    "appolon1908/Codestra-Grafana-",
+    "appolon1908/Codestra-Loki",
+    "appolon1908/Codestra-Tempo",
+    "appolon1908/Codestra-Alloy",
+    "appolon1908/Codestra-Blackbox-Exporter",
+    "appolon1908/Codestra-Postgres-Exporter",
+    "appolon1908/Codestra-Redis-Exporter"
+  ],
+  "sync": {
+    "mode": "baseline-manual-linked",
+    "desired_mode": "n8n-idempotent-reconciliation",
+    "live_effects": false,
+    "requirements": [
+      "stable IDs",
+      "idempotency",
+      "loop prevention",
+      "audit log",
+      "fail visible",
+      "no authoritative overwrite",
+      "no production effects"
+    ]
+  }
+}
