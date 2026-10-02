@@ -1,0 +1,41 @@
+schema_version: 1
+workstation:
+  name: "Codestra-Workstation Workstation"
+  primary_repository: "appolon1908/Codestra-Workstation"
+  codex_environment_policy: "one repository per environment"
+connectors:
+  notion:
+    status: "connected"
+    portfolio_control_plane: "https://app.notion.com/p/3ed7518c3e0681a99aeccc503c96742c"
+    repositories_database: "https://app.notion.com/p/16653d38ded14c50afed78e98046107b"
+    repository_lookup_key: "Codestra-Workstation"
+    repository_record_url: "https://app.notion.com/p/3ed7518c3e068137a255f3b70da84095"
+  linear:
+    status: "connected"
+    execution_project: "https://linear.app/passion-fruit/project/codestra-api-workstation-cross-repo-readiness-ac4681283417"
+    registry: "https://linear.app/passion-fruit/document/113-repository-integration-registry-0edc34d347b5"
+    repository_lookup_key: "Codestra-Workstation"
+    repository_control_document_url: "https://linear.app/passion-fruit/document/codestra-workstation-workstation-control-plane-2d7087fd2ce3"
+  lucid:
+    status: "connected"
+    master_architecture: "https://lucid.app/lucidchart/e264ad2d-7a61-42a6-b140-875b618f209c/edit"
+    repository_flowchart_folder: "Codestra — 113 Repository Flowcharts"
+    repository_lookup_key: "Codestra-Workstation"
+    repository_diagram: "https://lucid.app/lucidchart/baab0299-8712-40d6-bd21-6ceacef0884e/edit"
+workflow:
+  before_implementation:
+    - "Read AGENTS.md."
+    - "Read .codestra/repository-profile.yaml."
+    - "Read .codestra/workstation-integrations.yaml."
+    - "Check Linear for the current task, blocker, and next action."
+    - "Check Notion for durable architecture and decisions."
+    - "Check the matching Lucid diagram for system boundaries and flow."
+  after_implementation:
+    - "Update Linear execution state and blockers."
+    - "Record durable architecture/decision changes in Notion."
+    - "Update Lucid when architecture, flow, or repository boundaries change."
+authority:
+  github: "code, branch, SHA, PR and CI truth"
+  linear: "execution, priority, blocker and next-action truth"
+  notion: "architecture, decisions and continuity truth"
+  lucid: "visual architecture, flow and boundary truth"
