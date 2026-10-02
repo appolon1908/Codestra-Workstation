@@ -1,7 +1,7 @@
 # Codestra-Workstation — Architecture Charts
 
-> Repository: `appolon1908/Codestra-Workstation`  
-> Baseline branch: `feat/windows-professional-workstation-20260926`  
+> Repository: `appolon1908/Codestra-Workstation`
+> Baseline branch: `feat/windows-professional-workstation-20260926`
 > Repository-local visual architecture. Update these diagrams when implementation or authority changes.
 
 ## 1. System context
