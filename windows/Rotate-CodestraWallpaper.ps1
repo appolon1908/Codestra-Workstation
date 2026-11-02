@@ -26,8 +26,9 @@ foreach ($source in @($config.photo_sources)) {
     if (-not (Test-Path $source)) { continue }
     $files += Get-ChildItem $source -File -Recurse -ErrorAction SilentlyContinue |
         Where-Object {
-            $_.Extension -match '^\.(jpg|jpeg|png|bmp)$' -and
-            -not ($exclude | Where-Object { $_ -and $_.FullName -like "*$_*" })
+            $photo = $_
+            $photo.Extension -match '^\.(jpg|jpeg|png|bmp)$' -and
+            -not ($exclude | Where-Object { $_ -and $photo.FullName -like "*$_*" })
         }
 }
 $files = @($files | Sort-Object FullName -Unique)

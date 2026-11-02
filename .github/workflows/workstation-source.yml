@@ -1,0 +1,38 @@
+name: Workstation isolated source validation
+on:
+  pull_request:
+  push:
+    branches: [feat/windows-professional-workstation-20260926]
+permissions:
+  contents: read
+jobs:
+  workstation-source-behavior:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Prove exact source identity
+        shell: pwsh
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          if ((git rev-parse HEAD) -ne $env:EXPECTED_SHA) { throw 'Source SHA mismatch' }
+      - name: Exercise all owned scripts with OS effects blocked
+        shell: pwsh
+        run: pwsh -NoProfile -NonInteractive -File tests/Test-Source.ps1
+  workstation-secrets:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Scan full history and complete effective tree
+        shell: bash
+        run: |
+          bash .github/scripts/scan-secrets.sh
